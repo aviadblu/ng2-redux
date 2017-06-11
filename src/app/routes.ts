@@ -1,8 +1,7 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {Routes} from '@angular/router';
 import {TodoMainComponent} from "app/todo/todo-main/todo-main.component";
 
-const routes: Routes = [
+export const router: Routes = [
   {
     path: '',
     children: [
@@ -18,10 +17,3 @@ const routes: Routes = [
     ]
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
-}

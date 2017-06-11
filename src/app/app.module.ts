@@ -3,19 +3,21 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {TodoModule} from "./todo/todo.module";
+
+import {router} from './routes';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    RouterModule.forRoot(router),
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule,
     TodoModule
   ],
   providers: [],
