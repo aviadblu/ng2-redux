@@ -5,33 +5,35 @@ import {TodoService} from "../todo.service";
   selector: 'app-todo-item',
   template: `
     <li>
-      <div class="view" [style.display]="(data.editMode ? 'none' : 'block')" >
-        <input class="toggle" type="checkbox" [checked]="data.done"
+      <div class="view" [style.display]="(todo.editMode ? 'none' : 'block')">
+        <input class="toggle" type="checkbox" [checked]="todo.done"
                (change)="toggleDone()">
-        <label>{{data.title}}</label>
+        <label>{{todo.title}}</label>
         <button class="destroy" (click)="remove()"></button>
       </div>
-      <input [style.display]="(data.editMode ? 'block' : 'none')" class="edit">
+      <input [style.display]="(todo.editMode ? 'block' : 'none')" class="edit">
     </li>
   `
 })
 export class TodoItemComponent {
-  @Input('data') data;
+  public todo;
+  private _data;
+  @Input('data')
+  set data(value) {
+    this.todo = Object.assign({}, value);
+    this._data = value;
+  }
 
   constructor(private todoSvc: TodoService) {
   }
 
   toggleDone() {
-    this.data.done = !this.data.done;
-    this.updateItem();
-  }
-
-  updateItem() {
-    this.todoSvc.saveChanges();
+    this.todo.done = !this.todo.done;
+    this.todoSvc.updateTodo(this.todo);
   }
 
   remove() {
-    this.todoSvc.removeTodo(this.data.id);
+    this.todoSvc.removeTodo(this.todo.id);
   }
 
 }

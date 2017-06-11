@@ -37,7 +37,7 @@ import {combineReducers} from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 
-//import * as userState from './state/user/user.state';
+import * as todoState from './state/todo/todo.state';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -45,8 +45,7 @@ import {combineReducers} from '@ngrx/store';
  */
 export interface State {
   router: fromRouter.RouterState;
-  //user: userState.State;
-
+  todo: todoState.State;
 }
 
 /**
@@ -58,7 +57,7 @@ export interface State {
  */
 const reducers = {
   router: fromRouter.routerReducer,
-  //user: userState.reducer,
+  todo: todoState.reducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);

@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
 import {TodoService} from "../todo.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Store} from "@ngrx/store";
+
+import * as appState from '../../app.state';
+import * as todoState from '../../state/todo/todo.state';
 
 @Component({
   selector: 'app-todo-main',
@@ -42,12 +46,13 @@ export class TodoMainComponent {
   public todosLeft: number = 0;
 
   constructor(private todoSvc: TodoService,
+              private store: Store<appState.State>,
               private formBuilder: FormBuilder) {
-    this.installed = todoSvc.isInit;
-    this.todos = todoSvc.todos;
+    this.installed = store.select(state => state.todo.installed);
     this.createForm();
+    this.todos = store.select(state => state.todo.data);
 
-    this.todoSvc.todos.subscribe(data => {
+    this.todos.subscribe(data => {
       this.todosLeft = 0;
       data.forEach(item => {
         if (!item.done) {
