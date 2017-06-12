@@ -7,10 +7,8 @@ import * as todoActions from '../state/todo/todo.actions';
 
 @Injectable()
 export class TodoService {
-  public todos;
 
   constructor(private store: Store<appState.State>) {
-    this.todos = store.select('todo');
     this.store.dispatch(new todoActions.SetInstalledTodosAction(!!localStorage.getItem('todo-redux')));
     this.loadData();
   }

@@ -9,10 +9,10 @@ import * as todoState from '../../state/todo/todo.state';
 @Component({
   selector: 'app-todo-main',
   template: `
-    <div class="first-time-installation" *ngIf="!(installed | async)">
+    <div class="first-time-installation" *ngIf="!(installed$ | async)">
       <button (click)="install()">Install</button>
     </div>
-    <section class="todoapp" *ngIf="(installed | async)">
+    <section class="todoapp" *ngIf="(installed$ | async)">
 
       <header class="header">
         <h1>todos</h1>
@@ -28,7 +28,7 @@ import * as todoState from '../../state/todo/todo.state';
 
       <section class="main">
         <input class="toggle-all" type="checkbox">
-        <app-todo-list [todos]="todos | async"></app-todo-list>
+        <app-todo-list [todos]="todos$ | async"></app-todo-list>
       </section>
 
       <footer class="footer">
@@ -40,19 +40,19 @@ import * as todoState from '../../state/todo/todo.state';
   `
 })
 export class TodoMainComponent {
-  public installed;
-  public todos;
+  public installed$;
+  public todos$;
   public newTodoForm: FormGroup;
   public todosLeft: number = 0;
 
   constructor(private todoSvc: TodoService,
               private store: Store<appState.State>,
               private formBuilder: FormBuilder) {
-    this.installed = store.select(state => state.todo.installed);
+    this.installed$ = store.select(state => state.todo.installed);
     this.createForm();
-    this.todos = store.select(state => state.todo.data);
+    this.todos$ = store.select(state => state.todo.data);
 
-    this.todos.subscribe(data => {
+    this.todos$.subscribe(data => {
       this.todosLeft = 0;
       data.forEach(item => {
         if (!item.done) {
