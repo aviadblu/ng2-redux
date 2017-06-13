@@ -7,8 +7,12 @@ import * as todoActions from '../state/todo/todo.actions';
 
 @Injectable()
 export class TodoService {
+  private _todos;
 
   constructor(private store: Store<appState.State>) {
+    this.store.select(state => state.todo.data).subscribe(data => {
+      this._todos = data;
+    });
     this.store.dispatch(new todoActions.SetInstalledTodosAction(!!localStorage.getItem('todo-redux')));
     this.loadData();
   }
@@ -33,9 +37,7 @@ export class TodoService {
 
   saveChanges() {
     // update local storage
-    this.store.select(state => state.todo.data).subscribe(data => {
-      localStorage.setItem('todo-redux', JSON.stringify(data));
-    });
+    localStorage.setItem('todo-redux', JSON.stringify(this._todos));
   }
 
   addTodo(data) {
